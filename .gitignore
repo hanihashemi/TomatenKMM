@@ -1,0 +1,41 @@
+*.iml
+.kotlin
+.gradle
+**/build/
+xcuserdata
+!src/**/build/
+local.properties
+.idea
+.DS_Store
+captures
+.externalNativeBuild
+.cxx
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Additional Kotlin MPP / Android / iOS ignores
+# Android artifacts
+*.apk
+*.ap_
+*.aab
+*.hprof
+*.keystore
+*.jks
+
+# iOS/Xcode artifacts
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.dSYM
+*.ipa
+
+# IDE/editor
+.vscode/
+
+# Logs and temp
+*.log
+*.tmp
