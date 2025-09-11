@@ -42,3 +42,40 @@ jobs:
       - name: Run checks
         run: ./gradlew :composeApp:check --stacktrace
 
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17 (for Gradle iOS tasks)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Cache Kotlin/Native (konan)
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/libs.versions.toml') }}
+
+      - name: Build KMP iOS framework (simulator)
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64 --stacktrace
+
+      - name: Install xcpretty
+        run: sudo gem install xcpretty
+
+      - name: Xcode build (iOS simulator)
+        run: |
+          xcodebuild -version
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            build | xcpretty
+        env:
+          NSUnbufferedIO: 'YES'
